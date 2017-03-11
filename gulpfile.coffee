@@ -31,6 +31,6 @@ gulp.task 'deploy', [ 'git:info' ], (callback) ->
     repository: "https://#{git.login}:#{git.token}@#{git.repo}"
     branches: [ 'HEAD' ]
     remoteBranch: 'master'
-    prefix: dir.site
+    prefix: dir.dist
     message: git.commit).on 'error', (err) ->
       callback err
