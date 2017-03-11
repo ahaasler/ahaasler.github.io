@@ -12,7 +12,7 @@ git =
   commit: undefined
   login: process.env.GH_LOGIN
   token: process.env.GH_TOKEN
-  repo: process.env.GIT_REPO
+  repo: process.env.GH_REPO
 
 # Build site
 gulp.task 'build', (callback) ->
