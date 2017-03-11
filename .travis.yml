@@ -1,7 +1,16 @@
 language: node_js
 node_js: 6
 before_install:
+- git config --global user.name "$GIT_USER"
+- git config --global user.email $GIT_EMAIL
 - export PATH=$PATH:`pwd`/node_modules/.bin
 script: gulp build
+after_success: '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "source" ] && gulp deploy || false'
 branches:
   except: master
+env:
+  global:
+  - secure: YxS5vcquEFWXSXdYk0cPXSTYhyMUI0CF7Sgs4p33zyIgDfCEttP2fPHXOnopZGf/R1gezAilyjRHjH76bXDGIHQBX8aCTFF6uKxOw51fr51fG2lxoQO9AZth6eA1NHUTGBMi4ubOnsnRptoAGfiAM1urZ3vOuYbF2sg0IDSCXjBTu4hLcctL9MI/0MRtFV8leAIPE78/8fmaapoQKcl+JTeKTqIyK4zDHFk+zMZsTaH8ZH/+EfH9HOQj8Gm17iS/Hy1uDNCf5SXVYRsvLemwTwqpWI1wZc4Rrm0ZDK3TRMmt9o0SFzr/g98Ck28ySnR4e7E92EcJnzgiAZc5WTXgQqUzZ0RnYSD2QLJwk+xT0ffWxoQ1L4JQVuYKt/Z2/MrYEmSOR7MJq930HlSgAQliPFOBOoOUjmEcIH1r3TeJk+60zaptYyBieVOEpaMlKFWg+RmQyNLPR0XlwvWozN1auE+amGp0EjzrZhQXtbaCXlJHQJjKxlwhk2EV/ISdXzu3BkNVjHGMVimiNWpaUT876Lr/qEAkgQEzNliO22eERM3Qla57m6ICx70oV/nS73dBNz1Ed9sMjrMjfNRtedhfekaZSwc2O/ehCdDipfYwN3hzUvgLSCzHaYtt+RLt+UuiZ/t14PoUWcnwK6OR4Gfe+F7UKmx3ZDFHsyl+0uV/v3w=
+  - GIT_USER='Adrian Haasler García'
+  - GIT_EMAIL=dev@adrianhaasler.com
+  - GH_REPO=github.com/ahaasler/ahaasler.github.io.git
