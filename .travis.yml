@@ -2,6 +2,6 @@ language: node_js
 node_js: 6
 before_install:
 - export PATH=$PATH:`pwd`/node_modules/.bin
-script: hexo generate
+script: gulp build
 branches:
   except: master
