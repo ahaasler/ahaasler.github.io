@@ -10067,7 +10067,331 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   }];
 
-</script><dom-module id="app-header" assetpath="./">
+</script><!--
+`simple-carousel`
+Simple carousel component for Polymer 1.0
+
+Modifications: Adrian Haasler <dev@adrianhaasler.com>
+- Notify changes in selected property.
+
+[View in Github](https://github.com/ahaasler/simple-carousel)
+@demo demo/index.html
+-->
+
+<dom-module id="carousel-slide" assetpath="simple-carousel/">
+	<template>
+		<style>
+			:host{
+				display:block;
+			}
+		</style>
+		<content></content>
+	</template>
+	<script>
+		Polymer({
+			is:'carousel-slide'
+		})
+	</script>
+</dom-module>
+<script>
+  /*
+   * @polymerBehavior Polymer.AnimationBehavior
+   */
+  Polymer.AnimationBehavior = {
+    properties: {
+       /**
+       * Set the selected item.
+       */
+      _transitionStyle: {
+        type: String,
+        computed: '_computeTransitionStyle(transitionStyle)'
+      }
+    },
+    _computeTransitionStyle: function(transitionStyle) {
+      switch(transitionStyle) {
+        case 'cubic':
+          return 'cubic-bezier(.1,.6,.1,1)'
+        case 'cubic-inverse':
+          return 'cubic-bezier(0, 0.2, 0.9, 0.4)'
+        default:
+          return transitionStyle;
+      }
+    },
+    _translateAnimation: function(elem, inverse) {
+      // Setup transition start state
+      var oldSelected = this.selected;
+      this._translateX(oldSelected, 0);
+      this._translateX(elem, this.offsetWidth * inverse);
+
+      // Start the transition
+      this.selected = elem;
+      this._translateX(oldSelected, -this.offsetWidth * inverse, true /* transition */);
+      this._translateX(elem, 0, true /* transition */);
+    },
+    _translateX: function(elem, x, transition) {
+      var transitionDuration = this.transitionDuration / 1000;
+      elem.style.display = 'inline-block';
+      elem.style.transition = transition ? 'transform ' + transitionDuration + 's ' + this._transitionStyle : '';
+      elem.style.transform = 'translate3d(' + x + 'px, 0, 0)';
+    }
+  };
+</script><dom-module id="simple-carousel" assetpath="simple-carousel/">
+  <template>
+    <style>
+
+      :host {
+        display: block;
+        position:relative;
+        overflow:hidden;
+      }
+
+      :host ::content carousel-slide,
+      :host ::content [carousel-slide],
+      :host ::content [data-carousel-slide] {
+        position:absolute;
+        width:100%;
+        left:0;
+        top:0;
+      }
+
+      :host ::content carousel-slide:first-child,
+      :host ::content [carousel-slide]:first-child,
+      :host ::content [data-carousel-slide]:first-child {
+          position:relative;
+      }
+
+      :host ::content carousel-slide:not([selected]),
+      :host ::content [carousel-slide]:not([selected]),
+      :host ::content [data-carousel-slide]:not([selected]) {
+        display:none;
+      }
+
+      button {
+        position: absolute;
+        top: calc(50% - 20px);
+        padding: 0;
+        line-height: 40px;
+        border: none;
+        background: none;
+        color: #DDD;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+        opacity: 0.7;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      button:hover,
+      button:focus {
+        opacity: 1;
+      }
+
+      #prevBtn {
+        left: 12px;
+      }
+
+      #nextBtn {
+        right: 12px;
+      }
+
+      button[disabled] {
+        opacity: 0.4;
+        cursor: default;
+      }
+
+      :host(.non-keyboard) :focus {
+        outline: none !important;
+      }
+    </style>
+
+    <div>
+      <content select="carousel-slide, [carousel-slide], [data-carousel-slide]"></content>
+    </div>
+
+    <button id="prevBtn" on-click="previous" on-keyup="keyboardAdvancePrevious" tabindex="0">❮</button>
+    <button id="nextBtn" on-click="next" on-keyup="keyboardAdvanceNext" tabindex="0">❯</button>
+
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'simple-carousel',
+      behaviors: [
+        Polymer.AnimationBehavior
+      ],
+      properties: {
+         /**
+         * Set the selected item.
+         */
+        selected: {
+          type: Object,
+          notify: true,
+          observer: '_selectedChanged'
+        },
+        /**
+         * If this property is true, the carousel displays items in a continuous loop.
+         */
+        infiniteLoop: {
+          type: Boolean,
+          value: false
+        },
+        /**
+         * If this property us true, the carousel autoplay the loop.
+         */
+        auto: {
+          type: Boolean,
+          value: false
+        },
+        /**
+         * Set the time between transitions (milliseconds)
+         */
+        transitionTime: {
+          type: Number,
+          value:3000
+        },
+        /**
+         * Set the transition animation duration (milliseconds)
+         */
+        transitionDuration: {
+          type: Number,
+          value: 500
+        },
+        /**
+         * If this property is true, the carousel shows the navigation buttons.
+         */
+        showControls: {
+          type: String,
+          value: true
+        },
+
+        /**
+         * Transition animation style [linear | cubic | cubic-inverse | ease | ease-in | ease-out | ease-in-out | ...]
+         */
+        transitionStyle: {
+          type: String,
+          value: "ease"
+        }
+      },
+      ready: function() {
+        this._autoStart();
+        if(this.showControls == 'false'){
+          this.$.prevBtn.style.display = 'none';
+          this.$.nextBtn.style.display = 'none';
+        }
+      },
+      _autoStart: function() {
+        if(this.auto){
+          var that =  this;
+          this.intervalHander && clearInterval(this.intervalHander);
+          this.intervalHander = setInterval(function(){that.next()}, this.transitionTime);
+        }
+      },
+      _getNextVisibleSlide: function() {
+        var elems = this.queryAllEffectiveChildren('carousel-slide, [carousel-slide], [data-carousel-slide]');
+        var selected;
+        elems.forEach(function(elem) {
+          if (!elem.hidden && !selected) {
+            selected = elem;
+          }
+        });
+        return selected;
+      },
+      _getPreviousVisibleSlide: function() {
+        var elems = this.queryAllEffectiveChildren('carousel-slide, [carousel-slide], [data-carousel-slide]');
+        var n = 1;
+        elem = elems[elems.length - n];
+        while (elem.hidden) {
+          n++;
+          elem = elems[elems.length - n];
+        }
+        return elem;
+      },
+      attached: function() {
+        this.selected = this._getNextVisibleSlide();
+      },
+      _selectedChanged: function(selected, oldSelected) {
+        if (oldSelected) oldSelected.removeAttribute('selected');
+        if (selected) selected.setAttribute('selected', '');
+
+        if (!this.infiniteLoop) {
+           this.$.prevBtn.disabled = !selected.previousElementSibling;
+           this.$.nextBtn.disabled = !selected.nextElementSibling;
+        }
+      },
+      /**
+       * Sets keyboard class based on event type
+       */
+      _setKeyboardClass: function(event) {
+        var host = Polymer.dom(this);
+        if (event && (event.type === 'keyup' || event.type === 'keydown' || event.type === 'keypress')) {
+          host.classList.remove('non-keyboard');
+        } else {
+          host.classList.add('non-keyboard');
+        }
+      },
+      keyboardAdvancePrevious: function(event) {
+        if (event.which === 32 || event.which === 13) {
+          this.previous(event);
+        }
+      },
+      keyboardAdvanceNext: function(event) {
+        if (event.which === 32 || event.which === 13) {
+          this.next(event);
+        }
+      },
+      /**
+       * Shows the previous carousel element.
+       */
+      previous: function(event) {
+        this._setKeyboardClass(event);
+        var prevElem = this.selected.previousElementSibling;
+        var isSlideElem = prevElem && prevElem.tagName === 'CAROUSEL-SLIDE' && !prevElem.hidden;
+        var elem = isSlideElem ? this.selected.previousElementSibling : null;
+        this._autoStart();
+        if (this.infiniteLoop && !elem) {
+          elem = this._getPreviousVisibleSlide();
+        }
+        elem && this._translateAnimation(elem, -1);
+      },
+      /**
+       * Shows the next carousel element.
+       */
+      next: function(event) {
+        this._setKeyboardClass(event);
+        if(!this.selected){
+          this.selected = this._getNextVisibleSlide(); 
+        }
+        var nextElem = this.selected ? this.selected.nextElementSibling : null;
+        var isSlideElem = nextElem && nextElem.tagName === 'CAROUSEL-SLIDE' && !nextElem.hidden;
+        var elem = isSlideElem ? this.selected.nextElementSibling : null;
+        this._autoStart();
+        if (this.infiniteLoop && !elem) {
+          elem = this._getNextVisibleSlide();
+        }
+        elem && this.selected && this._translateAnimation(elem,1);
+      },
+      /**
+       * Stop carousel loop
+       */
+      stop: function() {
+        clearInterval(this.intervalHander);
+      },
+      /**
+       * Start carousel loop
+       */
+      start: function() {
+        this.infiniteLoop = true;
+        this._autoStart();
+      }
+    });
+  </script>
+</dom-module>
+<dom-module id="app-header" assetpath="./">
   <template>
     <style>
       :host {
@@ -10115,7 +10439,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       #backgroundFrontLayer,
-      #backgroundRearLayer {
+      #backgroundRearLayer,
+      #backgroundFrontLayer simple-carousel,
+      #backgroundFrontLayer simple-carousel carousel-slide {
         @apply(--layout-fit);
         height: 100%;
         pointer-events: none;
@@ -10154,6 +10480,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         transition: none !important;
       }
     </style>
+    <div id="background">
+      <div id="backgroundRearLayer"></div>
+      <div id="backgroundFrontLayer">
+        <template is="dom-if" if="{{_slides.length}}">
+          <simple-carousel id="backgroundCarousel" infinite-loop="true" auto="true" transition-time="{{interval}}" show-controls="false">
+            <template is="dom-repeat" items="{{_slides}}">
+              <carousel-slide class$="{{_slideClasses(item)}}" style="background-image: {{_bgImageStyle(item)}};"></carousel-slide>
+            </template>
+          </simple-carousel>
+        </template>
+      </div>
+    </div>
     <div id="contentContainer">
       <content id="content"></content>
     </div>
@@ -10229,11 +10567,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
 
         /**
-         * Time in seconds to change slide.
+         * Time in milliseconds to change slide.
          */
         interval: {
           type: Number,
-          value: 5
+          value: 5000
         }
       },
 
@@ -10305,16 +10643,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        *
        * @type {number}
        */
-      _currentSlide: 0,
+      _currentSlide: -1,
 
       ready: function() {
+        var self = this;
         this._slides = Polymer.dom(this).querySelectorAll('[slide]');
-        if (this._slides.length > 0) {
-          this._showSlide(0);
-        }
         if (this._slides.length > 1) {
-          this._initTimer();
+          // this._initTimer();
         }
+        this.async(function() {
+          self.$$('#backgroundCarousel').addEventListener("selected-changed", function(e) {
+            self._nextSlide();
+          });
+        });
       },
 
       /**
@@ -10534,38 +10875,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return Math.min(max, Math.max(min, v));
       },
 
-      _ensureBgContainers: function() {
-        if (!this._bgContainer) {
-          this._bgContainer = document.createElement('div');
-          this._bgContainer.id = 'background';
-
-          this._bgRear = document.createElement('div');
-          this._bgRear.id = 'backgroundRearLayer';
-          this._bgContainer.appendChild(this._bgRear);
-
-          this._bgFront = document.createElement('div');
-          this._bgFront.id = 'backgroundFrontLayer';
-          this._bgContainer.appendChild(this._bgFront);
-
-          Polymer.dom(this.root).insertBefore(this._bgContainer, this.$.contentContainer);
-        }
+      _bgImageStyle: function(slide) {
+        var url = slide.getAttribute('bg');
+        return url == undefined ? 'none' : 'url(' + url + ')';
       },
 
-      _changeBgImage: function(url) {
-        this._getDOMRef('backgroundFrontLayer').style.backgroundImage = url === undefined ? 'none' : 'url(' + url + ')';
+      _slideClasses: function(slide) {
+        var url = slide.getAttribute('bg');
+        return url == undefined ? 'no-bg' : 'cover-bg';
       },
 
       _getDOMRef: function(id) {
         switch (id) {
           case 'backgroundFrontLayer':
-            this._ensureBgContainers();
-            return this._bgFront;
+            return this.$.backgroundFrontLayer;
           case 'backgroundRearLayer':
-            this._ensureBgContainers();
-            return this._bgRear;
+            return this.$.backgroundRearLayer;
           case 'background':
-            this._ensureBgContainers();
-            return this._bgContainer;
+            return this.$.background;
           case 'mainTitle':
             return Polymer.dom(this).querySelector('[main-title]');
           case 'condensedTitle':
@@ -10578,7 +10905,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var self = this;
         this.carouselTimer = setInterval(function() {
           self._nextSlide();
-        }, this.interval * 1000);
+        }, this.interval);
       },
 
       /**
@@ -10596,7 +10923,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         for (var i = 0; i < this._slides.length; i++) {
           this._slides[i].style.display = i !== this._currentSlide ? 'none' : 'inherit';
         }
-        this._changeBgImage(this._slides[index].getAttribute('bg'))
       },
 
       /**
@@ -34069,7 +34395,7 @@ Holder for the drawer
 			}
 		</style>
 
-		<content></content>
+		<slot></slot>
 	</template>
 </dom-module>
 
@@ -34194,7 +34520,7 @@ Adds a subheader to the drawer
 			}
 		</style>
 
-		<content></content>
+		<slot></slot>
 	</template>
 </dom-module>
 
@@ -34231,7 +34557,7 @@ Item in the drawer without an icon
 			}
 		</style>
 
-		<paper-item class="item" role="menuitem"><paper-ripple fit=""></paper-ripple><content></content></paper-item>
+		<paper-item class="item" role="menuitem"><paper-ripple fit=""></paper-ripple><slot></slot></paper-item>
 	</template>
 </dom-module>
 
@@ -34353,7 +34679,7 @@ Custom property               | Description                                    |
 		<paper-icon-item class="item" role="menuitem">
 			<paper-ripple fit=""></paper-ripple>
 			<iron-icon class="icon" icon="[[icon]]" item-icon=""></iron-icon>
-			<content></content>
+			<slot></slot>
 		</paper-icon-item>
 	</template>
 </dom-module>
