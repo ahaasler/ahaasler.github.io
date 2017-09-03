@@ -75,3 +75,7 @@ theme: colos
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type:
+
+## Include/Exclude Files or Folders
+include:
+- _headers
