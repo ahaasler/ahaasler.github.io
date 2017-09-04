@@ -1,4 +1,4 @@
-/*.html
+/*
 	Link: </css/main.css>; rel=preload; as=stylesheet
 	Link: </lib/webcomponentsjs/webcomponents-lite.min.js>; rel=preload; as=script
 	Link: </lib/elements.html>; rel=preload; as=document
