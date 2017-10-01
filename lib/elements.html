@@ -290,9 +290,10 @@ settings.useNativeImports = settings.hasNativeImports;
 settings.useNativeCustomElements = !window.CustomElements || window.CustomElements.useNative;
 settings.useNativeShadow = settings.useShadow && settings.nativeShadow;
 settings.usePolyfillProto = !settings.useNativeCustomElements && !Object.__proto__;
-settings.hasNativeCSSProperties = !navigator.userAgent.match('AppleWebKit/601') && window.CSS && CSS.supports && CSS.supports('box-shadow', '0 0 0 var(--foo)');
+settings.hasNativeCSSProperties = !navigator.userAgent.match(/AppleWebKit\/601|Edge\/15/) && window.CSS && CSS.supports && CSS.supports('box-shadow', '0 0 0 var(--foo)');
 settings.useNativeCSSProperties = settings.hasNativeCSSProperties && settings.lazyRegister && settings.useNativeCSSProperties;
 settings.isIE = navigator.userAgent.match('Trident');
+settings.passiveTouchGestures = settings.passiveTouchGestures || false;
 return settings;
 }()
 };(function () {
@@ -1042,7 +1043,7 @@ default:
 return value != null ? value : undefined;
 }
 }
-});Polymer.version = "1.9.3";Polymer.Base._addFeature({
+});Polymer.version = "1.10.1";Polymer.Base._addFeature({
 _registerFeatures: function () {
 this._prepIs();
 this._prepBehaviors();
@@ -3843,6 +3844,9 @@ return new MouseEvent('test', { buttons: 1 }).buttons === 1;
 return false;
 }
 }();
+function isMouseEvent(name) {
+return MOUSE_EVENTS.indexOf(name) > -1;
+}
 var SUPPORTS_PASSIVE = false;
 (function () {
 try {
@@ -3856,6 +3860,11 @@ window.removeEventListener('test', null, opts);
 } catch (e) {
 }
 }());
+function PASSIVE_TOUCH() {
+if (HAS_NATIVE_TA && SUPPORTS_PASSIVE && Polymer.Settings.passiveTouchGestures) {
+return { passive: true };
+}
+}
 var IS_TOUCH_ONLY = navigator.userAgent.match(/iP(?:[oa]d|hone)|Android/);
 var mouseCanceller = function (mouseEvent) {
 var sc = mouseEvent.sourceCapabilities;
@@ -3899,7 +3908,7 @@ POINTERSTATE.mouse.mouseIgnoreJob = Polymer.Debounce(POINTERSTATE.mouse.mouseIgn
 }
 function hasLeftMouseButton(ev) {
 var type = ev.type;
-if (MOUSE_EVENTS.indexOf(type) === -1) {
+if (!isMouseEvent(type)) {
 return false;
 }
 if (type === 'mousemove') {
@@ -4076,7 +4085,7 @@ node[GESTURE_KEY] = gobj = {};
 }
 for (var i = 0, dep, gd; i < deps.length; i++) {
 dep = deps[i];
-if (IS_TOUCH_ONLY && MOUSE_EVENTS.indexOf(dep) > -1 && dep !== 'click') {
+if (IS_TOUCH_ONLY && isMouseEvent(dep) && dep !== 'click') {
 continue;
 }
 gd = gobj[dep];
@@ -4084,7 +4093,8 @@ if (!gd) {
 gobj[dep] = gd = { _count: 0 };
 }
 if (gd._count === 0) {
-node.addEventListener(dep, this.handleNative);
+var options = !isMouseEvent(dep) && PASSIVE_TOUCH();
+node.addEventListener(dep, this.handleNative, options);
 }
 gd[name] = (gd[name] || 0) + 1;
 gd._count = (gd._count || 0) + 1;
@@ -4108,7 +4118,8 @@ if (gd && gd[name]) {
 gd[name] = (gd[name] || 1) - 1;
 gd._count = (gd._count || 1) - 1;
 if (gd._count === 0) {
-node.removeEventListener(dep, this.handleNative);
+var options = !isMouseEvent(dep) && PASSIVE_TOUCH();
+node.removeEventListener(dep, this.handleNative, options);
 }
 }
 }
@@ -7422,6 +7433,9 @@ this.__appliedElement = this.__appliedElement || this;
 this.__cssBuild = styleUtil.getCssBuildType(this);
 if (this.__appliedElement !== this) {
 this.__appliedElement.__cssBuild = this.__cssBuild;
+}
+if (this.ownerDocument !== window.document && this.__appliedElement === this) {
+document.head.appendChild(this);
 }
 this._tryApply();
 },
@@ -34885,4 +34899,4 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <g id="vpn-key"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"></path></g>
 </defs></svg>
 </iron-iconset-svg>
-</div></body></html>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></div></body></html>
