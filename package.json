@@ -8,10 +8,15 @@
 		"start": "next start"
 	},
 	"dependencies": {
+		"dotenv": "^8.2.0",
 		"gray-matter": "^4.0.2",
 		"next": "9.5.5",
+		"next-tinacms-github": "^0.32.0",
 		"react": "17.0.1",
-		"react-dom": "17.0.1"
+		"react-dom": "17.0.1",
+		"react-tinacms-github": "^0.32.0",
+		"styled-components": "^5.2.0",
+		"tinacms": "^0.32.0"
 	},
 	"devDependencies": {
 		"@types/node": "^14.0.5",

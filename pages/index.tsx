@@ -1,13 +1,23 @@
 import { GetStaticProps } from 'next'
+import { getGithubPreviewProps, parseJson } from 'next-tinacms-github'
+import { usePlugin } from 'tinacms'
+import { useGithubJsonForm, useGithubToolbarPlugins } from 'react-tinacms-github'
 
 export default function Index({
-	page
+	file
 }: {
-	page: {
-		title: string
-		description: string
-	}
+	file: any
 }) {
+	const formOptions = {
+		label: 'Home Page',
+		fields: [
+			{ label: 'Title', name: 'title', component: 'text' },
+			{ label: 'Description', name: 'description', component: 'text' }
+		],
+	}
+	const [page, form] = useGithubJsonForm(file, formOptions)
+	usePlugin(form)
+	useGithubToolbarPlugins()
 	return (
 		<>
 			<h1>{page.title}</h1>
@@ -16,10 +26,26 @@ export default function Index({
 	)
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async function({
+	preview,
+	previewData
+}) {
+	if (preview) {
+		return getGithubPreviewProps({
+			...previewData,
+			fileRelativePath: 'config/page.json',
+			parse: parseJson
+		})
+	}
 	return {
 		props: {
-			page: (await import('../config/page.json')).default
+			sourceProvider: null,
+			error: null,
+			preview: false,
+			file: {
+				fileRelativePath: 'config/page.json',
+				data: (await import('../config/page.json')).default
+			}
 		}
 	}
 }
