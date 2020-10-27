@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv-defaults').config()
 
 module.exports = {
 	env: {

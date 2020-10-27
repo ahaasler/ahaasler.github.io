@@ -8,7 +8,7 @@
 		"start": "next start"
 	},
 	"dependencies": {
-		"dotenv": "^8.2.0",
+		"dotenv-defaults": "^2.0.1",
 		"gray-matter": "^4.0.2",
 		"next": "9.5.5",
 		"next-tinacms-github": "^0.32.0",
