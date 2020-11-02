@@ -1,6 +1,8 @@
 import App from 'next/app'
+import React, { useEffect, useState } from 'react'
 import { TinaCMS, TinaProvider } from 'tinacms'
 import { GithubClient, TinacmsGithubProvider, GithubMediaStore } from 'react-tinacms-github'
+import { ThemeProvider, useTheme } from 'next-themes'
 import '../styles/global.css'
 
 export default class Site extends App {
@@ -43,22 +45,28 @@ export default class Site extends App {
 	render() {
 		const { Component, pageProps } = this.props
 		return (
-			/**
-			 * 5. Wrap the page Component with the Tina and Github providers
-			 */
-			<TinaProvider cms={this.cms}>
-				<TinacmsGithubProvider
-					onLogin={onLogin}
-					onLogout={onLogout}
-					error={pageProps.error}
-				>
-					{/**
-					 * 6. Add a button for entering Preview/Edit Mode
-					 */}
-					<EditLink cms={this.cms} />
-					<Component {...pageProps} />
-				</TinacmsGithubProvider>
-			</TinaProvider>
+			<ThemeProvider
+				enableSystem
+				defaultTheme='system'
+			>
+				{/**
+				 * 5. Wrap the page Component with the Tina and Github providers
+				*/}
+				<TinaProvider cms={this.cms}>
+					<TinacmsGithubProvider
+						onLogin={onLogin}
+						onLogout={onLogout}
+						error={pageProps.error}
+					>
+						{/**
+						 * 6. Add a button for entering Preview/Edit Mode
+						 */}
+						<EditLink cms={this.cms} />
+						<ThemePicker />
+						<Component {...pageProps} />
+					</TinacmsGithubProvider>
+				</TinaProvider>
+			</ThemeProvider>
 		)
 	}
 }
@@ -93,5 +101,19 @@ export const EditLink = ({ cms }: EditLinkProps) => {
 		<button onClick={() => cms.toggle()}>
 			{cms.enabled ? 'Exit Edit Mode' : 'Edit This Site'}
 		</button>
+	)
+}
+
+export const ThemePicker = () => {
+	const [mounted, setMounted] = useState(false)
+	const { themes, theme, setTheme } = useTheme()
+	useEffect(() => setMounted(true), [])
+	if (!mounted) return (<select disabled><option>Theme not loaded</option></select>)
+	return (
+		<select value={theme} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setTheme(e.target.value)}>
+			{themes.map((t: string) => (
+				<option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>
+			))}
+		</select>
 	)
 }
