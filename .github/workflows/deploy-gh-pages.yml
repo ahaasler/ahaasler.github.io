@@ -19,6 +19,8 @@ jobs:
       run: yarn install
     - name: Build and export page
       run: yarn export
+    - name: Fix gh-pages
+      run: touch out/.nojekyll
     - name: Prepare deployment commit
       run: |
         echo 'COMMIT_MESSAGE<<EOF' >> $GITHUB_ENV
