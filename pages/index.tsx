@@ -20,8 +20,8 @@ export default function Index({
 	useGithubToolbarPlugins()
 	return (
 		<>
-			<h1>{page.title}</h1>
-			<h2>{page.description}</h2>
+			<h1 className="m-2 text-5xl text-gray-900">{page.title}</h1>
+			<h2 className="m-2 text-xl text-gray-700">{page.description}</h2>
 		</>
 	)
 }
