@@ -98,7 +98,7 @@ export interface EditLinkProps {
 
 export const EditLink = ({ cms }: EditLinkProps) => {
 	return (
-		<button className="m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => cms.toggle()}>
+		<button className="m-2 bg-accent-primary hover:bg-accent-secondary text-white font-bold py-2 px-4 rounded" onClick={() => cms.toggle()}>
 			{cms.enabled ? 'Exit Edit Mode' : 'Edit This Site'}
 		</button>
 	)
@@ -112,7 +112,7 @@ export const ThemePicker = () => {
 	return (
 		<label className="m-2">
 			<span className="sr-only">Theme</span>
-			<select className="form-select py-2 px-4 rounded w-32" value={theme} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setTheme(e.target.value)}>
+			<select className="form-select bg-bg-primary py-2 px-4 rounded w-32" value={theme} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setTheme(e.target.value)}>
 				{themes.map((t: string) => (
 					<option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>
 				))}

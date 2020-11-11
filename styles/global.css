@@ -6,12 +6,16 @@
 	--bg-bg-primary: theme("colors.gray.100");
 	--text-text-primary: theme("colors.gray.900");
 	--text-text-secondary: theme("colors.gray.700");
+	--accent-primary: theme("colors.blue.500");
+	--accent-secondary: theme("colors.blue.700");
 }
 
 [data-theme='dark'] {
 	--bg-bg-primary: theme("colors.gray.900");
 	--text-text-primary: theme("colors.gray.200");
 	--text-text-secondary: theme("colors.gray.400");
+	--accent-primary: theme("colors.blue.700");
+	--accent-secondary: theme("colors.blue.800");
 }
 
 html,

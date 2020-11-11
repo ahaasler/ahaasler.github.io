@@ -11,6 +11,10 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
+				accent: {
+					primary: "var(--accent-primary)",
+					secondary: "var(--accent-secondary)",
+				},
 				bg: {
 					primary: "var(--bg-bg-primary)"
 				},
