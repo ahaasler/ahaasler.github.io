@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { TinaCMS, TinaProvider } from 'tinacms'
 import { GithubClient, TinacmsGithubProvider, GithubMediaStore } from 'react-tinacms-github'
 import { ThemeProvider, useTheme } from 'next-themes'
+import '../styles/tailwind.css'
 import '../styles/global.css'
+import '../styles/utilities.css'
 
 export default class Site extends App {
 	cms: TinaCMS
