@@ -12,20 +12,6 @@
 	--custom-tina-color-grey-10: theme("colors.black");
 }
 
-[data-theme='dark'] {
-	--custom-tina-color-grey-0: theme("colors.black");
-	--custom-tina-color-grey-1: theme("colors.gray.900");
-	--custom-tina-color-grey-2: theme("colors.gray.800");
-	--custom-tina-color-grey-3: theme("colors.gray.700");
-	--custom-tina-color-grey-4: theme("colors.gray.600");
-	--custom-tina-color-grey-5: theme("colors.gray.500");
-	--custom-tina-color-grey-6: theme("colors.gray.400");
-	--custom-tina-color-grey-7: theme("colors.gray.300");
-	--custom-tina-color-grey-8: theme("colors.gray.200");
-	--custom-tina-color-grey-9: theme("colors.gray.100");
-	--custom-tina-color-grey-10: theme("colors.white");
-}
-
 html,
 body {
 	--tina-color-primary-light: var(--accent-secondary);
