@@ -5,6 +5,7 @@ import { GithubClient, TinacmsGithubProvider, GithubMediaStore } from 'react-tin
 import { ThemeProvider, useTheme } from 'next-themes'
 import '../styles/tailwind.css'
 import '../styles/global.css'
+import '../styles/tinacms.css'
 import '../styles/utilities.css'
 
 export default class Site extends App {
