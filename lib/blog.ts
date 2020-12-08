@@ -18,8 +18,12 @@ export function getPostRelativePathFromSlug(slug: string): string {
 	return join(postsRelativePath, getPostFileFromSlug(slug))
 }
 
-export function getPostFiles() {
-	return fs.readdirSync(postsDirectory)
+export function getPostFiles(): string[] {
+	try {
+		return fs.readdirSync(postsDirectory)
+	} catch(err) {
+		return []
+	}
 }
 
 export function getPostBySlug(slug: string, fields: (keyof PostType)[] = []): PostType {
