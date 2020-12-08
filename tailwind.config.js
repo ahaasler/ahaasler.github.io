@@ -1,11 +1,13 @@
 module.exports = {
 	plugins: [
-		require("@tailwindcss/custom-forms")
+		require("@tailwindcss/custom-forms"),
+		require("@tailwindcss/typography")
 	],
 	purge: {
 		enabled: process.env.NODE_ENV === "production",
 		content: [
-			"./pages/**/*.tsx"
+			"./components/**/*.{js,ts,jsx,tsx}",
+			"./pages/**/*.{js,ts,jsx,tsx}"
 		]
 	},
 	theme: {
@@ -13,16 +15,89 @@ module.exports = {
 			colors: {
 				accent: {
 					primary: "var(--accent-primary)",
-					secondary: "var(--accent-secondary)",
+					secondary: "var(--accent-secondary)"
 				},
 				bg: {
-					primary: "var(--bg-bg-primary)"
+					primary: "var(--bg-bg-primary)",
+					code: "var(--bg-bg-code)"
 				},
 				text: {
 					primary: "var(--text-text-primary)",
-					secondary: "var(--text-text-secondary)"
+					"primary-light": "var(--text-text-primary-light)",
+					secondary: "var(--text-text-secondary)",
+					"secondary-light": "var(--text-text-secondary-light)",
+					tertiary: "var(--text-text-tertiary)",
+					"tertiary-light": "var(--text-text-tertiary-light)",
+					code: "var(--text-text-code)"
 				}
-			}
+			},
+			typography: (theme) => ({
+				default: {
+					css: {
+						color: theme("colors.text.primary-light"),
+						"[class~='lead']": {
+							color: theme("colors.text.tertiary")
+						},
+						a: {
+							color: theme("colors.accent.primary"),
+							"&:hover": {
+								color: theme("colors.accent.secondary")
+							}
+						},
+						strong: {
+							color: theme("colors.text.primary")
+						},
+						"ol > li::before": {
+							color: theme("colors.text.secondary-light")
+						},
+						"ul > li::before": {
+							backgroundColor: theme("colors.text.tertiary")
+						},
+						hr: {
+							borderColor: theme("colors.text.tertiary-light")
+						},
+						blockquote: {
+							color: theme("colors.text.primary"),
+							borderLeftColor: theme("colors.text.tertiary-light")
+						},
+						h1: {
+							color: theme("colors.text.primary")
+						},
+						h2: {
+							color: theme("colors.text.primary-light")
+						},
+						h3: {
+							color: theme("colors.text.primary-light")
+						},
+						h4: {
+							color: theme("colors.text.secondary")
+						},
+						h5: {
+							color: theme("colors.text.secondary-light")
+						},
+						h6: {
+							color: theme("colors.text.secondary-light")
+						},
+						'figure figcaption': {
+							color: theme("colors.text.secondary-light")
+						},
+						code: {
+							color: theme("colors.text.primary")
+						},
+						pre: {
+							color: theme("colors.text.code"),
+							backgroundColor: theme("colors.bg.code")
+						},
+						thead: {
+							color: theme("colors.text.primary"),
+							borderBottomColor: theme("colors.text.tertiary")
+						},
+						'tbody tr': {
+							borderBottomColor: theme("colors.text.tertiary-light")
+						}
+					}
+				}
+			})
 		}
 	}
 }

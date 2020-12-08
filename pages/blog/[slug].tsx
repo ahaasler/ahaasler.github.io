@@ -54,19 +54,21 @@ export default function Post({ file }: InferGetStaticPropsType<typeof getStaticP
 				<h1>
 					<InlineText name="frontmatter.title" />
 				</h1>
-				<InlineWysiwyg
-					name="markdownBody"
-					sticky="72px"
-					imageProps={{
-						uploadDir: () => "/content/images/",
-						parse: (media) => media.id,
-						previewSrc(src) {
-							return cms.media.previewSrc(src)
-						}
-					}}
-				>
-					<Markdown content={data.markdownBody} />
-				</InlineWysiwyg>
+				<div className="prose lg:prose-xl">
+					<InlineWysiwyg
+						name="markdownBody"
+						sticky="72px"
+						imageProps={{
+							uploadDir: () => "/content/images/",
+							parse: (media) => media.id,
+							previewSrc(src) {
+								return cms.media.previewSrc(src)
+							}
+						}}
+					>
+						<Markdown content={data.markdownBody} />
+					</InlineWysiwyg>
+				</div>
 			</InlineForm>
 		</article>
 	)
