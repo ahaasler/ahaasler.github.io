@@ -111,7 +111,7 @@ export const ThemePicker = () => {
 	const [mounted, setMounted] = useState(false)
 	const { themes, theme, setTheme } = useTheme()
 	useEffect(() => setMounted(true), [])
-	if (!mounted) return (<select disabled><option>Theme not loaded</option></select>)
+	if (!mounted) return (<select className="bg-bg-primary py-2 px-4 rounded w-32" disabled><option>Theme not loaded</option></select>)
 	return (
 		<label className="m-2">
 			<span className="sr-only">Theme</span>
