@@ -115,7 +115,7 @@ export const ThemePicker = () => {
 	return (
 		<label className="m-2">
 			<span className="sr-only">Theme</span>
-			<select className="form-select bg-bg-primary py-2 px-4 rounded w-32" value={theme} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setTheme(e.target.value)}>
+			<select className="bg-bg-primary py-2 px-4 rounded w-32" value={theme} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setTheme(e.target.value)}>
 				{themes.map((t: string) => (
 					<option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>
 				))}
