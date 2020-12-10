@@ -18,16 +18,16 @@
 		"gray-matter": "^4.0.2",
 		"next": "^10.0.0",
 		"next-themes": "^0.0.10",
-		"next-tinacms-github": "^0.33.0",
+		"next-tinacms-github": "^0.34.0",
 		"react": "^17.0.1",
 		"react-dom": "^17.0.1",
 		"react-markdown": "^5.0.3",
-		"react-tinacms-editor": "^0.33.0",
+		"react-tinacms-editor": "^0.34.0",
 		"react-tinacms-github": "^0.33.0",
-		"react-tinacms-inline": "^0.33.0",
+		"react-tinacms-inline": "^0.34.0",
 		"remark-gfm": "^1.0.0",
 		"styled-components": "^5.2.0",
-		"tinacms": "^0.33.0"
+		"tinacms": "^0.34.0"
 	},
 	"devDependencies": {
 		"@tailwindcss/forms": "^0.2.1",
