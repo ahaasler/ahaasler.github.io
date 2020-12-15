@@ -1,4 +1,5 @@
 import App from 'next/app'
+import dynamic from 'next/dynamic'
 import React, { useEffect, useState } from 'react'
 import { TinaCMS, TinaProvider } from 'tinacms'
 import { GithubClient, TinacmsGithubProvider, GithubMediaStore } from 'react-tinacms-github'
@@ -7,6 +8,11 @@ import '../styles/tailwind.css'
 import '../styles/global.css'
 import '../styles/tinacms.css'
 import '../styles/utilities.css'
+
+const LoadingBar = dynamic(
+	() => import("@/components/loading-bar"),
+	{ ssr: false }
+)
 
 export default class Site extends App {
 	cms: TinaCMS
@@ -52,6 +58,7 @@ export default class Site extends App {
 				enableSystem
 				defaultTheme='system'
 			>
+				<LoadingBar delay={400} trickleSpeed={100} />
 				{/**
 				 * 5. Wrap the page Component with the Tina and Github providers
 				*/}

@@ -10,6 +10,7 @@
 	--text-text-code: theme("colors.gray.300");
 	--accent-primary: theme("colors.blue.500");
 	--accent-secondary: theme("colors.blue.700");
+	--accent-tertiary: theme("colors.blue.400");
 }
 
 [data-theme='dark'] {
@@ -24,6 +25,7 @@
 	--text-text-code: theme("colors.gray.300");
 	--accent-primary: theme("colors.blue.700");
 	--accent-secondary: theme("colors.blue.800");
+	--accent-tertiary: theme("colors.blue.500");
 }
 
 html,
