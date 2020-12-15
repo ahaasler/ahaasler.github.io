@@ -46,9 +46,9 @@ module.exports = {
 							color: theme("colors.text.tertiary.DEFAULT")
 						},
 						a: {
-							color: theme("colors.accent.primary.DEFAULT"),
+							color: theme("colors.accent.primary"),
 							"&:hover": {
-								color: theme("colors.accent.secondary.DEFAULT")
+								color: theme("colors.accent.secondary")
 							}
 						},
 						strong: {
