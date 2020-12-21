@@ -40,6 +40,7 @@
 		"postcss": "^8.2.0",
 		"serve": "^11.3.2",
 		"tailwindcss": "^2.0.1",
+		"tailwindcss-material": "^1.0.0",
 		"typescript": "^4.0.3"
 	}
 }

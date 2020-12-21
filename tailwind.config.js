@@ -1,5 +1,6 @@
 module.exports = {
 	plugins: [
+		require("tailwindcss-material"),
 		require("@tailwindcss/forms"),
 		require("@tailwindcss/typography")
 	],
