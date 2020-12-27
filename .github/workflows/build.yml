@@ -6,6 +6,7 @@ on:
     branches: [ next.js ]
 jobs:
   build:
+    name: Build page and test
     runs-on: ubuntu-latest
     strategy:
       matrix:
