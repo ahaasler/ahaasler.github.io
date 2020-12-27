@@ -4,6 +4,7 @@ type PostData = {
 	title?: string
 	date?: string
 	author?: string
+	excerpt?: string
 }
 
 type PostType = PostData & {

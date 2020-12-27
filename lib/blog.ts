@@ -2,6 +2,7 @@ import fs from "fs"
 import { join } from "path"
 import matter from "gray-matter"
 import { PostType } from "@/types/blog"
+import excerpt from "./excerpt"
 
 const postsRelativePath = "content/blog"
 const postsDirectory = join(process.cwd(), postsRelativePath)
@@ -44,6 +45,12 @@ export function getPostByFile(file: string, fields: (keyof PostType)[] = []): Po
 		fields.forEach((field) => {
 			if (field === "content") {
 				post.content = content
+			} else if (field === "excerpt") {
+				if (data[field]) {
+					post.excerpt = data[field]
+				} else {
+					post.excerpt = excerpt(content, { characters: 150 })
+				}
 			} else if (data[field]) {
 				post[field] = data[field]
 			}

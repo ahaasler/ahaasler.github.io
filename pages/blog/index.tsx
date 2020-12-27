@@ -19,6 +19,7 @@ export default function Index({ posts }: InferGetStaticPropsType<typeof getStati
 						<Link href={`/blog/${p.slug}`} as=""><a>{p.title}</a></Link>
 						<p>{p.author} - <time dateTime="{p.date}">{p.date}</time></p>
 					</header>
+					<p>{p.excerpt}</p>
 				</article>
 			))}
 		</>
@@ -31,7 +32,8 @@ export const getStaticProps: GetStaticProps<Props> = async function() {
 			posts: getAllPosts([
 				"title",
 				"date",
-				"author"
+				"author",
+				"excerpt"
 			])
 		}
 	}
