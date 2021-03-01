@@ -1,6 +1,6 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import Link from 'next/link'
-import { getAllPosts } from '@/lib/blog'
+import { getAllGithubPosts, getAllPosts } from '@/lib/blog'
 import { PostType } from '@/types/blog'
 
 type Props = {
@@ -26,15 +26,14 @@ export default function Index({ posts }: InferGetStaticPropsType<typeof getStati
 	)
 }
 
-export const getStaticProps: GetStaticProps<Props> = async function() {
+export const getStaticProps: GetStaticProps<Props> = async function({ preview, previewData }) {
+	const fields = [ "title", "date", "author", "excerpt" ] as (keyof PostType)[]
+	const posts = preview
+		? await getAllGithubPosts(fields, previewData)
+		: getAllPosts(fields)
 	return {
 		props: {
-			posts: getAllPosts([
-				"title",
-				"date",
-				"author",
-				"excerpt"
-			])
+			posts
 		}
 	}
 }
