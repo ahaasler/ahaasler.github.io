@@ -1,6 +1,6 @@
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
-import { getGithubPreviewProps, parseJson } from 'next-tinacms-github'
+import { getGithubPreviewProps, parseJson, PreviewData } from 'next-tinacms-github'
 import { usePlugin } from 'tinacms'
 import { useGithubJsonForm, useGithubToolbarPlugins } from 'react-tinacms-github'
 
@@ -36,7 +36,7 @@ export const getStaticProps: GetStaticProps = async function({
 }) {
 	if (preview) {
 		return getGithubPreviewProps({
-			...previewData,
+			...(previewData as PreviewData<any>),
 			fileRelativePath: 'config/page.json',
 			parse: parseJson
 		})

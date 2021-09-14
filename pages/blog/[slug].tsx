@@ -5,7 +5,7 @@ import { usePlugin, useCMS } from "tinacms"
 import { InlineWysiwyg } from "react-tinacms-editor"
 import { useGithubMarkdownForm } from "react-tinacms-github"
 import { InlineForm, InlineText } from "react-tinacms-inline"
-import { getGithubPreviewProps, parseMarkdown } from "next-tinacms-github"
+import { getGithubPreviewProps, parseMarkdown, PreviewData } from "next-tinacms-github"
 import { GitFile } from "react-tinacms-github/dist/src/form/useGitFileSha"
 import { getPostBySlug, getAllPosts, getPostRelativePathFromSlug } from "@/lib/blog"
 import { PostContent, PostData } from "@/types/blog"
@@ -77,7 +77,7 @@ export default function Post({ file }: InferGetStaticPropsType<typeof getStaticP
 export const getStaticProps: GetStaticProps<Props, Params> = async ({ preview, previewData, params }) => {
 	if (preview) {
 		return await getGithubPreviewProps({
-			...previewData,
+			...(previewData as PreviewData<any>),
 			fileRelativePath: getPostRelativePathFromSlug(params.slug),
 			parse: parseMarkdown
 		})
