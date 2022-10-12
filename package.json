@@ -13,7 +13,9 @@
 		"start": "next start"
 	},
 	"dependencies": {
+		"@apollo/client": "^3.7.0",
 		"dotenv-defaults": "^2.0.1",
+		"graphql": "^16.6.0",
 		"gray-matter": "^4.0.2",
 		"next": "^11.1.2",
 		"next-themes": "^0.0.12",

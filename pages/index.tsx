@@ -26,6 +26,9 @@ export default function Index({
 			<Link href="/blog">
 				<a className="m-2 bg-accent-primary hover:bg-accent-secondary text-white font-bold py-2 px-4 rounded">Blog</a>
 			</Link>
+			<Link href="/projects">
+				<a className="m-2 bg-accent-primary hover:bg-accent-secondary text-white font-bold py-2 px-4 rounded">Projects</a>
+			</Link>
 		</>
 	)
 }

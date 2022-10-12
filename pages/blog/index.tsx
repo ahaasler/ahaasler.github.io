@@ -13,6 +13,9 @@ export default function Index({ posts }: InferGetStaticPropsType<typeof getStati
 			<Link href="/">
 				<a className="m-2 bg-accent-primary hover:bg-accent-secondary text-white font-bold py-2 px-4 rounded">Home</a>
 			</Link>
+			<Link href="/projects">
+				<a className="m-2 bg-accent-primary hover:bg-accent-secondary text-white font-bold py-2 px-4 rounded">Projects</a>
+			</Link>
 			{posts.map((p) => (
 				<article key={p.slug}>
 					<header>
