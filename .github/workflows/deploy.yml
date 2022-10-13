@@ -20,6 +20,8 @@ jobs:
       uses: bahmutov/npm-install@HEAD
     - name: Build and export page
       run: yarn export
+      env:
+        GITHUB_ACCESS_TOKEN: ${{ secrets.GRAPHQL_TOKEN }}
     - name: Fix gh-pages
       run: touch out/.nojekyll
     - name: Prepare deployment commit
