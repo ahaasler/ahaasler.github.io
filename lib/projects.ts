@@ -1,29 +1,46 @@
-import { promises as fs } from "fs"
-import path from "path"
 import { ProjectType } from "@/types/projects"
 import { ApolloClient, createHttpLink, gql, InMemoryCache } from "@apollo/client"
 import { setContext } from "@apollo/client/link/context"
+import { getCache } from "@/lib/cache"
+
+const cache = getCache()
 
 export async function getProjects(): Promise<ProjectType[]> {
-	try {
-		const data = await fs.readFile(path.join(process.cwd(), "projects.db"))
-		const projects: ProjectType[] = JSON.parse(data as unknown as string)
+	let projects = await cache.projects()
+	if (projects == undefined) {
+		console.log("Missing in cache, fetching")
+		projects = await fetchProjects()
+		cache.set(projects)
+	} else {
 		console.log("Cache hit")
-		return projects
-	} catch (error) {
-		console.log("Fetching projects")
-		const projects: ProjectType[] = await fetchProjects()
-		await fs.writeFile(
-			path.join(process.cwd(), "projects.db"),
-			JSON.stringify(projects),
-		)
-		return projects
 	}
+	return projects
 }
 
-export async function getProject(name: string): Promise<ProjectType | null | undefined> {
-	const projects: ProjectType[] = await getProjects()
-	return projects.find((project) => project.name === name)
+export async function getProjectNames(): Promise<string[]> {
+	let projectNames = await cache.projectNames()
+	if (projectNames == undefined) {
+		console.log("Missing in cache, fetching")
+		const projects = await fetchProjects()
+		cache.set(projects)
+		projectNames = projects?.map((project) => project.name) || []
+	} else {
+		console.log("Cache hit")
+	}
+	return projectNames
+}
+
+export async function getProject(name: string): Promise<ProjectType | undefined> {
+	let project = await cache.project(name)
+	if (project == undefined) {
+		console.log("Missing in cache, fetching")
+		const projects = await fetchProjects()
+		cache.set(projects)
+		project = projects?.find((project) => project.name === name) || undefined
+	} else {
+		console.log("Cache hit")
+	}
+	return project
 }
 
 async function fetchProjects(): Promise<ProjectType[]> {

@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next"
-import { getProject, getProjects } from "@/lib/projects"
+import { getProject, getProjectNames, getProjects } from "@/lib/projects"
 import { ParsedUrlQuery } from "querystring"
 import { ProjectType } from "@/types/projects"
 import Head from "next/head"
@@ -50,12 +50,12 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({params}) =>
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
-	const projects = await getProjects()
+	const projectNames = await getProjectNames()
 	return {
-		paths: projects.map((project) => {
+		paths: projectNames.map((projectName) => {
 			return {
 				params: {
-					name: project.name
+					name: projectName
 				}
 			}
 		}),
