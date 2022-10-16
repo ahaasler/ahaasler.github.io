@@ -1,0 +1,57 @@
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width"/><meta charSet="utf-8"/><script>!function(){try {var d=document.documentElement;var e=localStorage.getItem('theme');if(!e)return localStorage.setItem('theme','system'),d.setAttribute('data-theme', 'system');if("system"===e){var t="(prefers-color-scheme: dark)",m=window.matchMedia(t);m.media!==t||m.matches?d.setAttribute('data-theme', 'dark'):d.setAttribute('data-theme', 'light')}else d.setAttribute('data-theme', e)}catch(e){}}()</script><title>tina-cloud-starter</title><meta name="next-head-count" content="4"/><link rel="preload" href="/_next/static/css/9363687da4c12b810564.css" as="style"/><link rel="stylesheet" href="/_next/static/css/9363687da4c12b810564.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/_next/static/chunks/polyfills-a40ef1678bae11e696dba45124eadd70.js"></script><script src="/_next/static/chunks/webpack-3a770ef49c16d17151b4.js" defer=""></script><script src="/_next/static/chunks/framework-3af989d3dbeb77832f99.js" defer=""></script><script src="/_next/static/chunks/main-40f76118f06e75475bd6.js" defer=""></script><script src="/_next/static/chunks/pages/_app-360e10ab17d8216d5d54.js" defer=""></script><script src="/_next/static/chunks/347-5fa4d13528b220adbaed.js" defer=""></script><script src="/_next/static/chunks/pages/projects/%5Bname%5D-789768b0e898ea0a19ff.js" defer=""></script><script src="/_next/static/N24qK0TIMa-UTt4GpyFx-/_buildManifest.js" defer=""></script><script src="/_next/static/N24qK0TIMa-UTt4GpyFx-/_ssgManifest.js" defer=""></script><style data-styled="" data-styled-version="5.2.1"></style></head><body><div id="__next"><div id="modal-root"></div><button class="m-2 bg-accent-primary hover:bg-accent-secondary text-white font-bold py-2 px-4 rounded">Edit This Site</button><select class="bg-bg-primary py-2 px-4 rounded w-32" disabled=""><option>Theme not loaded</option></select><a class="m-2 bg-accent-primary hover:bg-accent-secondary text-white font-bold py-2 px-4 rounded" href="/">Home</a><a class="m-2 bg-accent-primary hover:bg-accent-secondary text-white font-bold py-2 px-4 rounded" href="/blog">Blog</a><a class="m-2 bg-accent-primary hover:bg-accent-secondary text-white font-bold py-2 px-4 rounded" href="/projects">Projects</a><article class="m-6"><h1>tina-cloud-starter</h1><h2></h2><div class="prose lg:prose-xl"><h1>Tina Starter 🦙</h1>
+<p><img src="https://user-images.githubusercontent.com/103008/130587027-995ccc45-a852-4f90-b658-13e8e0517339.gif" alt="tina-cloud-starter-demo"/></p>
+<p>This Next.js starter is powered by <a href="https://app.tina.io">TinaCMS</a> for you and your team to visually live edit the structured content of your website. ✨</p>
+<p>The content is managed through Markdown and JSON files stored in your GitHub repository, and queried through Tina GraphQL API.</p>
+<h3>Features</h3>
+<ul>
+<li><a href="https://app.tina.io">Tina Headless CMS</a> for authentication, content modeling, visual editing and team management.</li>
+<li><a href="https://vercel.com">Vercel</a> deployment to visually edit your site from the <code>/admin</code> route.</li>
+<li>Local development workflow from the filesystem with a local GraqhQL server.</li>
+</ul>
+<h2>Requirements</h2>
+<ul>
+<li>Git, <a href="https://nodejs.org/en/about/releases/">Node.js Active LTS</a>, Yarn installed for local development.</li>
+<li>A <a href="https://app.tina.io">TinaCMS</a> account for live editing.</li>
+</ul>
+<h2>Local Development</h2>
+<p>Install the project&#x27;s dependencies:</p>
+<pre><code>yarn install
+</code></pre>
+<p>Run the project locally:</p>
+<pre><code>yarn dev
+</code></pre>
+<h3>Local URLs</h3>
+<ul>
+<li><a href="http://localhost:3000">http://localhost:3000</a> : browse the website</li>
+<li><a href="http://localhost:3000/admin">http://localhost:3000/admin</a> : connect to Tina Cloud and go in edit mode</li>
+<li><a href="http://localhost:3000/exit-admin">http://localhost:3000/exit-admin</a> : log out of Tina Cloud</li>
+<li><a href="http://localhost:4001/altair/">http://localhost:4001/altair/</a> : GraphQL playground to test queries and browse the API documentation</li>
+</ul>
+<h3>Building the Starter Locally (Using the hosted content API)</h3>
+<p>Replace the <code>.env.example</code>, with <code>.env</code></p>
+<pre><code>NEXT_PUBLIC_TINA_CLIENT_ID=&lt;get this from the project you create at app.tina.io&gt;
+TINA_TOKEN=&lt;get this from the project you create at app.tina.io&gt;
+NEXT_PUBLIC_TINA_BRANCH=&lt;Specify the branch with Tina configured&gt;
+</code></pre>
+<p>Build the project:</p>
+<pre><code>yarn build
+</code></pre>
+<h2>Getting Help</h2>
+<p>To get help with any TinaCMS challenges you may have:</p>
+<ul>
+<li>Visit the <a href="https://tina.io/docs/">documentation</a> to learn about Tina.</li>
+<li><a href="https://discord.gg/zumN63Ybpf">Join our Discord</a> to share feedback.</li>
+<li>Visit the <a href="https://community.tinacms.org/">community forum</a> to ask questions.</li>
+<li>Get support through the chat widget on the TinaCMS Dashboard</li>
+<li><a href="mailto:support@tina.io">Email us</a> to schedule a call with our team and share more about your context and what you&#x27;re trying to achieve.</li>
+<li><a href="https://github.com/tinacms/tinacms/issues">Search or open an issue</a> if something is not working.</li>
+<li>Reach out on Twitter at <a href="https://twitter.com/tina_cms">@tina_cms</a>.</li>
+</ul>
+<h2>Development tips</h2>
+<h3>Visual Studio Code GraphQL extension</h3>
+<p><a href="https://marketplace.visualstudio.com/items?itemName=GraphQL.vscode-graphql">Install the GraphQL extension</a> to benefit from type auto-completion.</p>
+<h3>Typescript</h3>
+<p>A good way to ensure your components match the shape of your data is to leverage the auto-generated TypeScript types.
+These are rebuilt when your <code>.tina</code> config changes.</p>
+<h2>LICENSE</h2>
+<p>Licensed under the <a href="./LICENSE">Apache 2.0 license</a>.</p></div></article></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"project":{"name":"tina-cloud-starter","description":null,"url":"https://github.com/ahaasler/tina-cloud-starter","readme":"# Tina Starter 🦙\n\n![tina-cloud-starter-demo](https://user-images.githubusercontent.com/103008/130587027-995ccc45-a852-4f90-b658-13e8e0517339.gif)\n\nThis Next.js starter is powered by [TinaCMS](https://app.tina.io) for you and your team to visually live edit the structured content of your website. ✨\n\nThe content is managed through Markdown and JSON files stored in your GitHub repository, and queried through Tina GraphQL API.\n\n### Features\n\n- [Tina Headless CMS](https://app.tina.io) for authentication, content modeling, visual editing and team management.\n- [Vercel](https://vercel.com) deployment to visually edit your site from the `/admin` route.\n- Local development workflow from the filesystem with a local GraqhQL server.\n\n## Requirements\n\n- Git, [Node.js Active LTS](https://nodejs.org/en/about/releases/), Yarn installed for local development.\n- A [TinaCMS](https://app.tina.io) account for live editing.\n\n## Local Development\n\nInstall the project's dependencies:\n\n```\nyarn install\n```\n\nRun the project locally:\n\n```\nyarn dev\n```\n\n### Local URLs\n\n- http://localhost:3000 : browse the website\n- http://localhost:3000/admin : connect to Tina Cloud and go in edit mode\n- http://localhost:3000/exit-admin : log out of Tina Cloud\n- http://localhost:4001/altair/ : GraphQL playground to test queries and browse the API documentation\n\n### Building the Starter Locally (Using the hosted content API)\n\nReplace the `.env.example`, with `.env`\n\n```\nNEXT_PUBLIC_TINA_CLIENT_ID=\u003cget this from the project you create at app.tina.io\u003e\nTINA_TOKEN=\u003cget this from the project you create at app.tina.io\u003e\nNEXT_PUBLIC_TINA_BRANCH=\u003cSpecify the branch with Tina configured\u003e\n```\n\nBuild the project:\n\n```bash\nyarn build\n```\n\n## Getting Help\n\nTo get help with any TinaCMS challenges you may have:\n\n- Visit the [documentation](https://tina.io/docs/) to learn about Tina.\n- [Join our Discord](https://discord.gg/zumN63Ybpf) to share feedback.\n- Visit the [community forum](https://community.tinacms.org/) to ask questions.\n- Get support through the chat widget on the TinaCMS Dashboard\n- [Email us](mailto:support@tina.io) to schedule a call with our team and share more about your context and what you're trying to achieve.\n- [Search or open an issue](https://github.com/tinacms/tinacms/issues) if something is not working.\n- Reach out on Twitter at [@tina_cms](https://twitter.com/tina_cms).\n\n## Development tips\n\n### Visual Studio Code GraphQL extension\n\n[Install the GraphQL extension](https://marketplace.visualstudio.com/items?itemName=GraphQL.vscode-graphql) to benefit from type auto-completion.\n\n### Typescript\n\nA good way to ensure your components match the shape of your data is to leverage the auto-generated TypeScript types.\nThese are rebuilt when your `.tina` config changes.\n\n## LICENSE\n\nLicensed under the [Apache 2.0 license](./LICENSE).\n","languages":["TypeScript","JavaScript","Shell","CSS"]}},"__N_SSG":true},"page":"/projects/[name]","query":{"name":"tina-cloud-starter"},"buildId":"N24qK0TIMa-UTt4GpyFx-","runtimeConfig":{},"isFallback":false,"gsp":true,"scriptLoader":[]}</script></body></html>
