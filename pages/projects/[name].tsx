@@ -42,10 +42,18 @@ export default function Project({project}: InferGetStaticPropsType<typeof getSta
 
 export const getStaticProps: GetStaticProps<Props, Params> = async ({params}) => {
 	const project = await getProject(params.name)
+	const revalidate = 30 * 60 // 30 minutes
+	if (project == undefined) {
+		return {
+			notFound: true,
+			revalidate,
+		}
+	}
 	return {
 		props: {
 			project: project
-		}
+		},
+		revalidate,
 	}
 }
 
@@ -59,6 +67,6 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 				}
 			}
 		}),
-		fallback: false,
+		fallback: "blocking",
 	}
 }
