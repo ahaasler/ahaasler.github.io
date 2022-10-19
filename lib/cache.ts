@@ -1,5 +1,6 @@
 import { ProjectType } from "@/types/projects"
 import FsCache from "@/lib/cache.fs"
+import RedisCache from "@/lib/cache.redis"
 
 declare interface ProjectCache {
 	projectNames(): Promise<string[] | undefined>
@@ -9,7 +10,11 @@ declare interface ProjectCache {
 }
 
 export function getCache(): ProjectCache {
-	return new FsCache()
+	if (process.env.NODE_ENV === "production") {
+		return new RedisCache()
+	} else {
+		return new FsCache()
+	}
 }
 
 export default ProjectCache

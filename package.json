@@ -17,6 +17,7 @@
 		"dotenv-defaults": "^2.0.1",
 		"graphql": "^16.6.0",
 		"gray-matter": "^4.0.2",
+		"ioredis": "^5.2.3",
 		"next": "^11.1.2",
 		"next-themes": "^0.0.12",
 		"next-tinacms-github": "^0.37.0",
