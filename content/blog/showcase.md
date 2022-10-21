@@ -7,7 +7,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget rutrum nis
 
 This is a [link](/blog).
 
-> This is a small blockquote
+> This is a small blockquote.
 
 Aliquam cursus sagittis lacinia. Mauris eget libero vulputate sapien tempus dictum ac eget nulla. Nunc id ipsum tempus, porta sem eu, elementum lectus. Etiam ut neque consequat, lobortis purus nec, tempor metus. Nullam viverra dictum mauris, vitae aliquet libero suscipit a. Nullam nec imperdiet erat. Sed sollicitudin augue nisl, nec lacinia diam commodo a.
 
