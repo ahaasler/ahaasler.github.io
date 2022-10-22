@@ -1,7 +1,6 @@
 import fs from "fs"
 import { join } from "path"
 import matter from "gray-matter"
-import { getFiles as getGithubFiles, parseMarkdown, getGithubFile } from 'next-tinacms-github'
 import { PostType } from "@/types/blog"
 import excerpt from "./excerpt"
 
@@ -28,19 +27,6 @@ export function getPostFiles(): string[] {
 	}
 }
 
-export async function getGithubPostFiles(previewData: any): Promise<string[]> {
-	try {
-		return (await getGithubFiles(
-			postsRelativePath,
-			previewData.working_repo_full_name,
-			previewData.head_branch,
-			previewData.github_access_token
-		)).map(f => f.replace(postsRelativePath + "/", ""))
-	} catch(err) {
-		return []
-	}
-}
-
 export function getPostBySlug(slug: string, fields: (keyof PostType)[] = []): PostType {
 	return getPostByFile(getPostFileFromSlug(slug), fields)
 }
@@ -52,22 +38,6 @@ export function getPostByFile(file: string, fields: (keyof PostType)[] = []): Po
 		const md = fs.readFileSync(join(postsDirectory, file), 'utf8')
 		const { data, content } = matter(md)
 		return getPost(getPostSlugFromFile(file), content, data, fields)
-	}
-	return {
-		slug: getPostSlugFromFile(file)
-	}
-}
-
-export async function getGithubPostByFile(file: string, fields: (keyof PostType)[] = [], previewData: any): Promise<PostType> {
-	fields = fields.filter(field => field !== 'slug')
-	if (fields.length !== 0) {
-		// Only read file if more data is requested
-		const githubFile = await getGithubFile<any>({
-			...previewData,
-			fileRelativePath: postsRelativePath + "/" + file,
-			parse: parseMarkdown,
-		})
-		return getPost(getPostSlugFromFile(file), githubFile.data.markdownBody, githubFile.data.frontmatter, fields)
 	}
 	return {
 		slug: getPostSlugFromFile(file)
@@ -102,11 +72,4 @@ export function getAllPosts(fields: (keyof PostType)[] = []): PostType[] {
 	return getPostFiles()
 		.map((file) => getPostByFile(file, fields))
 		.sort((post1, post2) => (post1.date > post2.date ? -1 : 1))
-}
-
-export async function getAllGithubPosts(fields: (keyof PostType)[] = [], previewData: any): Promise<PostType[]> {
-	const posts = await getGithubPostFiles(previewData)
-	return (await Promise.all(
-		posts.map(async file => await getGithubPostByFile(file, fields, previewData))
-	)).sort((post1, post2) => (post1.date > post2.date ? -1 : 1))
 }

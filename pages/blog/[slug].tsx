@@ -1,13 +1,7 @@
 import Head from "next/head"
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next"
 import { ParsedUrlQuery } from "querystring"
-import { usePlugin, useCMS } from "tinacms"
-import { InlineWysiwyg } from "react-tinacms-editor"
-import { useGithubMarkdownForm } from "react-tinacms-github"
-import { InlineForm, InlineText } from "react-tinacms-inline"
-import { getGithubPreviewProps, parseMarkdown, PreviewData } from "next-tinacms-github"
-import { GitFile } from "react-tinacms-github/dist/src/form/useGitFileSha"
-import { getPostBySlug, getAllPosts, getPostRelativePathFromSlug } from "@/lib/blog"
+import { getAllPosts, getPostBySlug } from "@/lib/blog"
 import { PostContent, PostData } from "@/types/blog"
 import Markdown from "@/components/markdown"
 
@@ -21,28 +15,10 @@ type PropData = {
 }
 
 type Props = {
-	file: Partial<GitFile<PropData>>
+	data: PropData
 }
 
-export default function Post({ file }: InferGetStaticPropsType<typeof getStaticProps>) {
-	const cms = useCMS()
-	const formOptions = {
-		label: "Edit blog post",
-		fields: [
-			{
-				label: "Title",
-				name: "frontmatter.title",
-				component: "text"
-			},
-			{
-				label: 'Author',
-				name: 'frontmatter.author',
-				component: 'text'
-			}
-		]
-	}
-	const [data, form] = useGithubMarkdownForm(file as GitFile, formOptions) as [PropData, any]
-	usePlugin(form)
+export default function Post({data}: InferGetStaticPropsType<typeof getStaticProps>) {
 	return (
 		<article className="m-6">
 			<Head>
@@ -50,39 +26,15 @@ export default function Post({ file }: InferGetStaticPropsType<typeof getStaticP
 					{data.frontmatter.title}
 				</title>
 			</Head>
-			<InlineForm form={form}>
-				<h1>
-					<InlineText name="frontmatter.title" />
-				</h1>
-				<div className="prose lg:prose-xl">
-					<InlineWysiwyg
-						name="markdownBody"
-						sticky="72px"
-						imageProps={{
-							uploadDir: () => "/content/images/",
-							parse: (media) => media.id,
-							previewSrc(src) {
-								return cms.media.previewSrc(src)
-							}
-						}}
-					>
-						<Markdown content={data.markdownBody} />
-					</InlineWysiwyg>
-				</div>
-			</InlineForm>
+			<h1>{data.frontmatter.title}</h1>
+			<div className="prose lg:prose-xl">
+				<Markdown content={data.markdownBody}/>
+			</div>
 		</article>
 	)
 }
 
-export const getStaticProps: GetStaticProps<Props, Params> = async ({ preview, previewData, params }) => {
-	if (preview) {
-		return await getGithubPreviewProps({
-			...(previewData as PreviewData<any>),
-			fileRelativePath: getPostRelativePathFromSlug(params.slug),
-			parse: parseMarkdown
-		})
-	}
-
+export const getStaticProps: GetStaticProps<Props, Params> = async ({params}) => {
 	const {slug, content, ...data} = getPostBySlug(params.slug, [
 		"title",
 		"content"
@@ -90,12 +42,9 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({ preview, p
 
 	return {
 		props: {
-			file: {
-				fileRelativePath: getPostRelativePathFromSlug(slug),
-				data: {
-					frontmatter: data,
-					markdownBody: content
-				}
+			data: {
+				frontmatter: data,
+				markdownBody: content
 			}
 		}
 	}
