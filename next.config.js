@@ -7,5 +7,4 @@ module.exports = {
 		BASE_BRANCH: process.env.BASE_BRANCH,
 		GO_VANITY_PREFIX: process.env.GO_VANITY_PREFIX,
 	},
-	target: "serverless"
 }

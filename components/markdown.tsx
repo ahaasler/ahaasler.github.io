@@ -11,7 +11,7 @@ type Props = {
 export default function Markdown({ content }: Props) {
 	return (
 		<ReactMarkdown
-			plugins={ [gfm] }
+			remarkPlugins={ [gfm] }
 			rehypePlugins={ [rehypeRaw, rehypeSanitize] }
 			children={ content }
 			components={{
