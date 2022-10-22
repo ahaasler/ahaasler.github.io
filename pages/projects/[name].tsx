@@ -17,6 +17,11 @@ type Props = {
 export default function Project({project}: InferGetStaticPropsType<typeof getStaticProps>) {
 	return (
 		<>
+			{project.languages.includes("Go") &&
+				<Head>
+					<meta name="go-import" content={`${process.env.GO_VANITY_PREFIX}/${project.name} git ${project.url}`}/>
+				</Head>
+			}
 			<Link href="/">
 				<a className="m-2 bg-accent-primary hover:bg-accent-secondary text-white font-bold py-2 px-4 rounded">Home</a>
 			</Link>
